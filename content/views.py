@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
+from .forms import *
 
 
 # Create your views here.
@@ -67,3 +68,49 @@ def logoutUser(request):
     logout(request)
     messages.success(request, 'Successfully Logged Out!')
     return redirect('index')
+
+@login_required(login_url='login')
+def myprofile(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(author = profile.id)
+    return render(request, 'myprofile.html', {'profile':profile, 'profile_details':profile_details})
+
+@login_required(login_url='login')
+def editprofile(request, username):
+    user = User.objects.get(username=username)
+    if request.method == 'POST':
+        # user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = EditProfile(request.POST, request.FILES, instance=request.user.profile)
+
+        if profile_form.is_valid():
+           
+            profile_form.save()
+            messages.success(request, 'Your Profile Has Been Updated Successfully!')
+            return redirect('myprofile', username=username)
+        else:
+            messages.error(request, "Your Profile Wasn't Updated!")
+            return redirect('editprofile', username=username)
+    else:
+        # user_form = UpdateUserForm(instance=request.user)
+        profile_form = EditProfile(instance=request.user.profile)
+
+    return render(request, 'editprofile.html', {'profile_form': profile_form})
+
+login_required(login_url='login')
+def addcard(request):
+    form = AddCardInfo()
+    if request.method == "POST":
+        form = AddCardInfo(request.POST, request.FILES)
+        if form.is_valid():
+            card = form.save(commit=False)
+            card.customer = request.user
+            card.profile = request.user.profile
+            card.save()
+            messages.success(request, 'Your Card Information Was Added Successfully!')
+            return redirect('myprofile')
+        else:
+            messages.error(request, "Your Card info  Wasn't Added!")
+            return redirect('addcard')
+    else:
+        form = AddCardInfo()
+    return render(request, 'addcard.html', {'form':form, })

@@ -55,6 +55,7 @@ class Orders(models.Model):
 
 class Card(models.Model):
   customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Customer', null = True)
+  profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Profile', null= True)
   cardNumber = models.CharField(max_length=50, verbose_name='Card Number', null=True)
   amount = models.IntegerField(default=0, null=False)
   created = models.DateTimeField(auto_now_add=True, verbose_name='Date Created, ', null=True)
