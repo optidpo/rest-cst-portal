@@ -1,0 +1,45 @@
+{% load static %}
+{% block navbar %}
+   
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar" id="nbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}"> <strong class="mr-4 brand" style="font-family: 'Press Start 2P', cursive; font-size: 20px;">Amani Restaurant</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                       
+                    </li>
+                </ul>
+    
+                <ul class="navbar-nav navbar-right">
+                    {% if user.is_authenticated%}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">{{ user.username|title }} <img class="rounded-circle nav-img"
+                                                                                src="{{ user.profile.profile_picture.url }}"
+                                                                                alt="">
+                        </a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                            
+                            <a href="{% url 'logout' %}" class="text-secondary text-center dropdown-item">Log Out</a>
+    
+    
+                        </div>
+                    </li>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="login btn btn-sm btn-info" style="margin-right: 5px ;"> REGISTER/LOGIN </a>
+                    {% endif %}
+                    
+                   
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+{% endblock %}

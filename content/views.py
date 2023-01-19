@@ -9,16 +9,13 @@ from .models import *
 
 # Create your views here.
 def index(request):
-  # games = Game.objects.all()
-  # {'games':games}
-  return render(request, "index.html")
+  games = Game.objects.all()  
+  return render(request, "index.html", {'games':games})
 
 def register(request):
   if request.method == 'POST':
         context = {'has_error': False}
-        fullname= request.POST['fullname']
-        username = request.POST['username']
-        phonenumber = request.POST['phonenumber']
+        username = request.POST['username']        
         email = request.POST['email']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
@@ -35,11 +32,11 @@ def register(request):
             messages.error(request, 'Email Address Already Exists! Choose Another One')
             return redirect('register')
         
-        if User.objects.filter(phonenumber=phonenumber).exists():
-          messages.error(request, 'Phone number already exists. Please enter another one' )
-          return redirect('register')
+        # if User.objects.filter(phonenumber=phonenumber).exists():
+        #   messages.error(request, 'Phone number already exists. Please enter another one' )
+        #   return redirect('register')
 
-        user = User.objects.create_user(fullname=fullname, username=username, phonenumber=phonenumber, email=email)
+        user = User.objects.create_user(username=username, email=email  )
         user.set_password(password1)
         user.save()        
   

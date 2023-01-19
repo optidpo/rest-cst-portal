@@ -1,6 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div class="">
-  <h1>Hello</h1>
+    <div class="menu-container">
+        {% include 'navbar.html' %}
+    </div>
+
+<div class="banner">
+  <div class="cover">
+    <div class = "container banner-cont">
+      <h2 style="font-family: 'Merienda', cursive;">Amani Restaurant</h2>
+     
+    </div>
+  </div>  
+</div>
+
+<div class="projects">
+  <div class= "text-center" >
+    <span style="background-color: rgb(32, 219, 147);">
+    {% if messages %}
+        {% for message in messages %} 
+        <div class="alert {{message.tags}} m-1" role="alert" style="font-size: medium; margin-bottom: 30px;">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %} 
+    {% endif %}
+  </span>
+    </div>
+  <h1 class ="text-center" style="margin: 20px; font-family: 'Alice', serif;">Available Games</h5>
+
+  {% if games %}
+  <div class="row">
+    {% for game in games %}
+    <div class="col-sm-4">
+      
+      <div class="card">
+          <img src="{{ game.gameimg.url }}" class="card-img-top" style="border-radius: 10px 10px 0px 0px;" alt="{{ game.title }}">          
+        
+        <hr>
+        <div class="card-body">
+          <h4 class="card-title" style="font-family: 'Sanchez', serif;"> {{ game.title }}</h4>
+          <p class="card-text">{{ game.description|truncatewords:15}}</p>
+          <hr>
+          
+
+          <div class="" style="float:left">
+            <h6> <span style="font-weight: lighter; color: green" class=""> Price: {{ game.price }}</span> </h6>
+
+
+          </div>
+        </div>
+      </div>
+      
+    </div>  
+    {% endfor %}  
+    
+  </div>
+  {% else %}
+  {% endif %}
 
 </div>
+
+
 {% endblock %}
