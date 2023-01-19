@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Profile(models.Model):
@@ -24,6 +24,7 @@ class Game(models.Model):
   title = models.CharField(max_length=150, verbose_name='Game Title', null=True)
   description =  models.CharField(max_length=250, verbose_name='About Game', null=True)
   price = models.IntegerField(default=0, null=False)
+  gameimg = CloudinaryField('image')
   created = models.DateTimeField(auto_now_add=True, verbose_name='Date Created, ', null=True)
   updated = models.DateTimeField(auto_now=True, verbose_name='Date Updated')
 
