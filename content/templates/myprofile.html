@@ -19,8 +19,109 @@
                 {% endfor %} 
             {% endif %}
             </div>
+        <div class="main-body">
         
-                               <div>hello</div>
+            <h1 class="text-center py-3" style="margin: 20px; font-family: 'Alice', serif;">My Profile</h1>
+
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">                   
+                
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Card Number</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ profile_details.customer.username }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Amount</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <button>Top Up Card</button>
+                                </div>
+                            </div>
+                            <hr>                           
+                           
+                            
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-primary" href="{% url 'editprofile' user.username %}" name="EditProfile"><i class="fa-solid fa-edit"></i> Edit Profile Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    
+                </div>
+            </div>
+        
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">                   
+                    
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Full name</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ profile_details.customer.fullname }}
+                                    </div>
+                                </div>
+                                <hr>
+                                
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Username</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ profile_details.customer.username }}
+                                    </div>
+                                </div>
+                                <hr>
+                                
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Email Address</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ profile_details.customer.email }}
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Phone number</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ profile_details.customer.phonenumber }}
+                                    </div>
+                                </div>
+                                <hr>
+                                
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a class="btn btn-primary" href="{% url 'editprofile' user.username %}" name="EditProfile"><i class="fa-solid fa-edit"></i> Edit Profile Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        
+                    </div>
+                </div>
+    
+            </div>
         </div>   
 
         {% endblock %}

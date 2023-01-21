@@ -1,0 +1,17 @@
+<div><h1>hello, here are your orders </h1> 
+{% if allGames %}
+{% for games in allGames%}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+  </tr>
+  <tr>
+      <td>{{games.id}}</td>
+      <td>{{games.price}}</td>
+  </tr>
+  
+</table>
+{% endfor %}
+{% endif %}
+</div>

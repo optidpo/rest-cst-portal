@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'content',
     'cloudinary',
     'bootstrap4',
+    'django_daraja',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,44 @@ cloudinary.config(
   api_secret = "oNEicoCy_M9UqMwBjoRC1fyPAuE",
   secure = True
 )
+
+# The Mpesa environment to use
+# Possible values: sandbox, production
+
+MPESA_ENVIRONMENT = 'sandbox'
+
+# Credentials for the daraja app
+
+MPESA_CONSUMER_KEY = '1TaoTPqVTBJfTGuFRzn7wEL3o3ahIsGM'
+MPESA_CONSUMER_SECRET = 'QAYYFvRnArstadQh'
+
+#Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
+
+MPESA_SHORTCODE = 'mpesa_shortcode'
+
+# Shortcode to use for Lipa na MPESA Online (MPESA Express) transactions
+# This is only used on sandbox, do not set this variable in production
+# For sandbox use the Lipa na MPESA Online Shorcode provided on test credentials page
+
+MPESA_EXPRESS_SHORTCODE = 'mpesa_express_shortcode'
+
+# Type of shortcode
+# Possible values:
+# - paybill (For Paybill)
+# - till_number (For Buy Goods Till Number)
+
+MPESA_SHORTCODE_TYPE = 'paybill'
+
+# Lipa na MPESA Online passkey
+# Sandbox passkey is available on test credentials page
+# Production passkey is sent via email once you go live
+
+MPESA_PASSKEY = 'mpesa_passkey'
+
+# Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
+
+MPESA_INITIATOR_USERNAME = 'initiator_username'
+
+# Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
+
+MPESA_INITIATOR_SECURITY_CREDENTIAL = 'KXJ4zZSs8GYII3koK7OYRObeT0I9d+WC9vxTWw5pfhHMAtA9/YG+Uaz/M12UDfhZ9g8PR3uKlavSUZAwv/AHSriF4TjRqyH9kF/m9SXZ2LSIuPWpXTGBYSplk5XmcZeTlhPFDLGTmu4w2AvOSxk2mup+3ugaFTfV/in6nDik1BcsFCvqeCSL57Nr42s6wCTNQmBhlBMUS0ICHSr4f+KiAypZcJrB5kPYHTx0X+dHkd3twhRnxPq8+e7mWYy0ITNbThAsIkqWC2N04sBmfI5pfeTrT6HasL3ANW8Gpd0oMZnhfWrzqZrcsJ2GSkvb2lu+VXIIsvYiBAVITi6UrnBWrg=='

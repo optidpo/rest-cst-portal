@@ -51,6 +51,16 @@
 
 
           </div>
+          {% if user.is_authenticated %}
+          <div class="" style="float:right">
+            <a href="{%url 'TopUpCard' %}">
+              <button class="post__button">Play</button>
+            </a>
+
+          </div>
+
+          {% endif %}
+          
         </div>
       </div>
       

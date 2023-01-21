@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid">
+        {% include 'navbar.html' %}
+    </div>
+
+    <div class="container" style="margin-top: 70px;">
+        <center>
+            {% if messages %}
+                {% for message in messages %} 
+                <div class="alert {{message.tags}} m-1" role="alert" style="font-size: medium; margin-bottom: 30px;">
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %} 
+            {% endif %}
+        </center>
+        <h1 class="text-center py-3" style="margin: 20px; font-family: 'Alice', serif;">Edit Profile Details</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="bio layout-spacing ">
+                <div class="widget-content widget-content-area">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-12 col-md-4">
+                            
+                        </div>
+                        <div class="col-xl-8 col-lg-12 col-md-8 mt-md-0 mt-4">
+                            <div class="form">                                
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="email">Email Address</label>
+                                            {{ user_form.email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                          <label for="username">Username<span class="text-danger">*</span></label>
+                                          {{ user_form.username }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-6">
+                                      <div class="form-group">
+                                          <label for="fullName">Full name</label>
+                                          {{ profile_form.fullname }}
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <div class="form-group">
+                                        <label for="phonenumber">Phone number<span class="text-danger">*</span></label>
+                                        {{ profile_form.phonenumber }}
+                                      </div>
+                                  </div>
+                              </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            
+
+            <div class="bio-skill-box">
+                <center>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 10px;">Save Changes</button>
+                    <a href="{% url 'myprofile' user.username %}">
+                        <button type="button" class="btn btn-dark btn-lg btn-block">Cancel</button>
+                    </a>
+                </center>
+            </div>
+        </form>
+    </div>  
+    {% endblock %}  

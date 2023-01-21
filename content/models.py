@@ -6,19 +6,20 @@ from cloudinary.models import CloudinaryField
 class Profile(models.Model):
   customer = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='User', null=True)
   email = models.EmailField(max_length=200, blank=True)
+  username = models.CharField(max_length=60, null=True, blank=True)   
   fullname = models.CharField(max_length=100, null=True)
   phonenumber = models.IntegerField(default=0, null=False)
   created = models.DateTimeField(auto_now_add=True, verbose_name='Date Created, ', null=True)
   updated = models.DateTimeField(auto_now=True, verbose_name='Date Updated')
 
   def save_profile(self):
-    self.save()
+    self.customer()
 
   def delete_profile(self):
     self.delete()
    
   def __str__(self):
-    return(self.customer)
+    return(self.id)
 
 class Game(models.Model):
   title = models.CharField(max_length=150, verbose_name='Game Title', null=True)

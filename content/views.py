@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
+from django_daraja.mpesa.core import MpesaClient
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -37,7 +39,7 @@ def register(request):
         #   messages.error(request, 'Phone number already exists. Please enter another one' )
         #   return redirect('register')
 
-        user = User.objects.create_user(username=username, email=email  )
+        user = User.objects.create_user(username=username, email=email)
         user.set_password(password1)
         user.save()        
   
@@ -72,15 +74,15 @@ def logoutUser(request):
 @login_required(login_url='login')
 def myprofile(request, username):
     profile = User.objects.get(username=username)
-    profile_details = Profile.objects.get(author = profile.id)
+    profile_details = Profile.objects.get(customer = profile.id)
     return render(request, 'myprofile.html', {'profile':profile, 'profile_details':profile_details})
 
 @login_required(login_url='login')
 def editprofile(request, username):
     user = User.objects.get(username=username)
     if request.method == 'POST':
-        # user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = EditProfile(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
         if profile_form.is_valid():
            
@@ -91,10 +93,10 @@ def editprofile(request, username):
             messages.error(request, "Your Profile Wasn't Updated!")
             return redirect('editprofile', username=username)
     else:
-        # user_form = UpdateUserForm(instance=request.user)
-        profile_form = EditProfile(instance=request.user.profile)
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
 
-    return render(request, 'editprofile.html', {'profile_form': profile_form})
+    return render(request, 'editprofile.html', {'user_form': user_form,'profile_form': profile_form})
 
 login_required(login_url='login')
 def addcard(request):
@@ -114,3 +116,42 @@ def addcard(request):
     else:
         form = AddCardInfo()
     return render(request, 'addcard.html', {'form':form, })
+
+def BuyGame(request, id):
+    boughtGame =  Game.objects.get(id = id)
+    currentUser = User.objects.get(id = request.user.id)
+
+    neworder = Orders( customer = currentUser, game = boughtGame)
+    if neworder:
+        neworder.save()
+        messages.success(request, "Game successfully added to cart")
+        return redirect('index')
+
+
+    else:
+        messages.error(request, "Game was not successfully added to cart")
+        return redirect('index')
+
+def OrdersMade(request, username):
+    currentUser = User.objects.get(username=username)
+    gamesBought = Orders.objects.filter(customer=currentUser)
+    if not gamesBought:
+        messages.error(request, "You don't have any orders placed yet.")
+    else:
+        allGames = Game.objects.get(id=gamesBought)    
+        return render(request, "orders.html", {'allGames':allGames, 'gamesBought':gamesBought })
+
+def TopUpCard(request):
+    cl = MpesaClient()
+    phone_number = '0768951323'
+    amount = 1
+    account_reference = 'Amani Restaurant Online Gaming'
+    transaction_desc = 'Amani Restaurant Online Gaming experience'
+    callback_url = 'https://api.darajambili.com/express-payment'
+    response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+    return HttpResponse(response)
+    
+
+              
+  
+ 

@@ -17,14 +17,12 @@
         </center>
     </div>
     <div class="panel-heading">
-        <h3 class="text-center" style="margin: 20px; font-family: 'Alice', serif;">Register</h3>
+        <h3 class="text-center" style="margin: 20px; font-family: 'Alice', serif;">Sign Up</h3>
       </div>
     <div class="signup-form">
         <form action="" method="POST">
             {% csrf_token %}
-            <h1 class="flex justify-content-center text-center" style="font-family: 'Press Start 2P', cursive;">
-              <a href="{% url 'index' %}" style="color:black">Amani <br> Restaurant </a>  
-            </h1>
+            
             <div class="panel register flex justify-content-center">
                 <div class="hint-text text-center" style="font-size: small;">Already Have An Account? <a href="{% url 'login' %}" name = 'login'>Log In</a></div>
             </div>
