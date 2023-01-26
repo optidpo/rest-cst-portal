@@ -1,14 +1,14 @@
 <div><h1>hello, here are your orders </h1> 
-{% if allGames %}
-{% for games in allGames%}
+{% if price %}
+{% for games in price%}
 <table>
   <tr>
-    <th>Name</th>
+    
     <th>Price</th>
   </tr>
   <tr>
-      <td>{{games.id}}</td>
-      <td>{{games.price}}</td>
+      
+      <td>{{games}}</td>
   </tr>
   
 </table>

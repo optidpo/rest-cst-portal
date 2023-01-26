@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 from django_daraja.mpesa.core import MpesaClient
-from django.http import HttpResponse
+from django_daraja.mpesa import utils
+from django.http import HttpResponse, JsonResponse
+from decouple import config
 
 
 # Create your views here.
@@ -116,6 +118,27 @@ def addcard(request):
     else:
         form = AddCardInfo()
     return render(request, 'addcard.html', {'form':form, })
+login_required(login_url='login')
+# def BuyGame(request, username, id):
+#     boughtGame =  Game.objects.get(id = id)
+#     currentUser = User.objects.get(username=username)
+#     phoneno = Profile.objects.get(currentUser= request.phonenumber)
+
+#     neworder = Orders( customer = currentUser, game = boughtGame)
+#     if neworder:
+#         phone_number = phoneno
+#         amount = 3200
+#         account_reference = 'Amani Online Gaming'
+#         transaction_desc = 'STK Push Description'
+#         callback_url = stk_push_callback_url
+#         r = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+#         neworder.save()
+#         messages.success(request, "Game successfully added to cart")
+#         # return redirect('index')
+#         return JsonResponse(r.response_description, safe=False)
+#     else:
+#         messages.error(request, "Game was not successfully added to cart")
+#         return redirect('index')
 
 def BuyGame(request, id):
     boughtGame =  Game.objects.get(id = id)
@@ -125,7 +148,7 @@ def BuyGame(request, id):
     if neworder:
         neworder.save()
         messages.success(request, "Game successfully added to cart")
-        return redirect('index')
+        return redirect('index', {'boughtGame': boughtGame})
 
 
     else:
@@ -150,6 +173,53 @@ def TopUpCard(request):
     callback_url = 'https://api.darajambili.com/express-payment'
     response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
     return HttpResponse(response)
+
+
+cl = MpesaClient()
+stk_push_callback_url = 'https://api.darajambili.com/express-payment'
+b2c_callback_url = 'https://api.darajambili.com/b2c/result'
+
+
+
+def oauth_success(request):
+	r = cl.access_token()
+	return JsonResponse(r, safe=False)
+
+def stk_push_success(request):
+	phone_number = config('B2C_PHONE_NUMBER')
+	amount = 1
+	account_reference = 'Amani Online Gaming'
+	transaction_desc = 'STK Push Description'
+	callback_url = stk_push_callback_url
+	r = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+	return JsonResponse(r.response_description, safe=False)
+
+def business_payment_success(request):
+	phone_number = config('B2C_PHONE_NUMBER')
+	amount = 1
+	transaction_desc = 'Business Payment Description'
+	occassion = 'Test business payment occassion'
+	callback_url = b2c_callback_url
+	r = cl.business_payment(phone_number, amount, transaction_desc, callback_url, occassion)
+	return JsonResponse(r.response_description, safe=False)
+
+def salary_payment_success(request):
+	phone_number = config('B2C_PHONE_NUMBER')
+	amount = 1
+	transaction_desc = 'Salary Payment Description'
+	occassion = 'Test salary payment occassion'
+	callback_url = b2c_callback_url
+	r = cl.salary_payment(phone_number, amount, transaction_desc, callback_url, occassion)
+	return JsonResponse(r.response_description, safe=False)
+
+def promotion_payment_success(request):
+	phone_number = config('B2C_PHONE_NUMBER')
+	amount = 1
+	transaction_desc = 'Promotion Payment Description'
+	occassion = 'Test promotion payment occassion'
+	callback_url = b2c_callback_url
+	r = cl.promotion_payment(phone_number, amount, transaction_desc, callback_url, occassion)
+	return JsonResponse(r.response_description, safe=False)
     
 
               

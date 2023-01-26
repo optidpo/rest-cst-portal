@@ -52,12 +52,14 @@
 
           </div>
           {% if user.is_authenticated %}
-          <div class="" style="float:right">
-            <a href="{%url 'TopUpCard' %}">
+          {% for games in boughtGame %}
+          <div class="TopUpCard" style="float:right">
+            <a href="{%url 'BuyGame' games.id %}">
               <button class="post__button">Play</button>
             </a>
 
           </div>
+          {% endfor %}
 
           {% endif %}
           

@@ -34,9 +34,16 @@ class Game(models.Model):
 
   def delete_game(self):
     self.delete()
-   
+
   def __str__(self):
-    return str(self.title)
+    return(self.id)
+   
+  # def __str__(self):
+  #   return str(self.title)
+  def get_price(self):
+    return self.price
+
+    
 
   @classmethod
   def all_games(cls):
